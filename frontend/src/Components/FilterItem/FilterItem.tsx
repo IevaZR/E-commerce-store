@@ -1,27 +1,28 @@
-import React from 'react'
-import "../FilterItem/FilterItem.css"
-import { useFilterContext } from '../../HelperFunctions/FilterContext';
+import "../FilterItem/FilterItem.css";
+import { useNavigate } from "react-router-dom";
 
 const FilterItem = ({ filterName, filterBackgroundImage }) => {
-  const { selectedFilter, setSelectedFilter } = useFilterContext();
+  const navigate = useNavigate();
 
   const handleClick = () => {
-    setSelectedFilter((prevSelectedFilter) =>
-    prevSelectedFilter === filterName.toLowerCase() ? '' : filterName.toLowerCase()
-  );
+    navigate(`/shop?category=${filterName.toLowerCase()}`);
   };
-  
+
   return (
     <div
-      className={`FilterItemWrapper ${selectedFilter === filterName.toLowerCase() ? 'selected' : ''}`}
+      className={`FilterItemWrapper ${
+        filterName.toLowerCase() ? "selected" : ""
+      }`}
       onClick={handleClick}
     >
-        <img className="FilterItemImage" src={filterBackgroundImage} alt={filterName} />
-        <h2 className="FilterItemName">{filterName}</h2>
+      <img
+        className="FilterItemImage"
+        src={filterBackgroundImage}
+        alt={filterName}
+      />
+      <h2 className="FilterItemName">{filterName}</h2>
     </div>
   );
 };
 
 export default FilterItem;
-
-

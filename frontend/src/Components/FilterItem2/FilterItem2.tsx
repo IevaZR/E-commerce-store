@@ -1,19 +1,24 @@
-import React from 'react'
-import "./FilterItem2.css"
-import { useFilterContext } from '../../HelperFunctions/FilterContext';
+import React from "react";
+import "./FilterItem2.css";
+import { useFilterContext } from "../../HelperFunctions/FilterContext";
 
 const FilterItem2 = ({ filterName, filterCategory }) => {
   const { selectedFilter, setSelectedFilter } = useFilterContext();
+  console.log("🚀 ~ selectedFilter:", selectedFilter);
 
   const handleClick = () => {
     setSelectedFilter((prevSelectedFilter) =>
-      prevSelectedFilter === filterCategory.toLowerCase() ? '' : filterCategory.toLowerCase()
+      prevSelectedFilter === filterCategory.toLowerCase()
+        ? ""
+        : filterCategory.toLowerCase()
     );
   };
 
   return (
     <div
-      className={`Filter2ItemWrapper ${selectedFilter === filterCategory.toLowerCase() ? 'selected' : ''}`}
+      className={`Filter2ItemWrapper ${
+        selectedFilter === filterCategory.toLowerCase() ? "selected" : ""
+      }`}
       onClick={handleClick}
     >
       <h2 className="Filter2ItemName">{filterName}</h2>
@@ -22,5 +27,3 @@ const FilterItem2 = ({ filterName, filterCategory }) => {
 };
 
 export default FilterItem2;
-
-
