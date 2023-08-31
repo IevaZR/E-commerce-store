@@ -22,7 +22,7 @@ const UserPageOrderCard = ({ order }) => {
     <div className="UserPageOrderCardWrapper">
       <div className="UserPageOrderCardOrderNumberWrapper">
         <h5 className="UserPageOrderCardOrderNumber">
-          Order no. {order.orderNumber} | {order.orderStatus}
+          Order no. {order.id} | {order.orderStatus}
         </h5>
         <h5 className="UserPageOrderCardOrderSum">Order total: EUR {calculateOrderTotal(order.orderedProducts).toFixed(2)}</h5>
       </div>

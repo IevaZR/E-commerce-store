@@ -7,11 +7,13 @@ import HeartIcon from "./../../Assets/heart-icon.png";
 import RedHeartIcon from "./../../Assets/red-heart-icon.png";
 import { useActiveSearchContext } from "../../HelperFunctions/ActiveSearchContext";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 const ProductCard = ({ productList }: ProductCardProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { user, updateUser } = useActiveSearchContext();
   const [favourite, setFavourite] = useState(false);
+  const [showPleaseLogIn, setShowPleaseLogIn] = useState(false);
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -37,36 +39,40 @@ const ProductCard = ({ productList }: ProductCardProps) => {
   }, [user, productList.id]);
 
   const toggleFavourites = async () => {
-    if (favourite === false) {
-      const updatedFavourites = [...user.favourites, { id: productList.id }];
-      const updatedUser = { ...user, favourites: updatedFavourites };
-      updateUser(updatedUser);
-      try {
-        await axios.put(
-          `http://localhost:3009/user/update-user/${user.id}`,
-          updatedUser
+    if (user) {
+      if (favourite === false) {
+        const updatedFavourites = [...user.favourites, { id: productList.id }];
+        const updatedUser = { ...user, favourites: updatedFavourites };
+        updateUser(updatedUser);
+        try {
+          await axios.put(
+            `http://localhost:3009/user/update-user/${user.id}`,
+            updatedUser
+          );
+          setFavourite(true);
+        } catch (err) {
+          console.log(err);
+        }
+      } else if (favourite === true) {
+        const updatedFavourites = user.favourites.filter(
+          (item) => item.id !== productList.id
         );
-        setFavourite(true);
-      } catch (err) {
-        console.log(err);
-      }
-    } else if (favourite === true) {
-      const updatedFavourites = user.favourites.filter(
-        (item) => item.id !== productList.id
-      );
-      const updatedUser = { ...user, favourites: updatedFavourites };
+        const updatedUser = { ...user, favourites: updatedFavourites };
 
-      updateUser(updatedUser);
+        updateUser(updatedUser);
 
-      try {
-        await axios.put(
-          `http://localhost:3009/user/update-user/${user.id}`,
-          updatedUser
-        );
-        setFavourite(false);
-      } catch (err) {
-        console.log(err);
+        try {
+          await axios.put(
+            `http://localhost:3009/user/update-user/${user.id}`,
+            updatedUser
+          );
+          setFavourite(false);
+        } catch (err) {
+          console.log(err);
+        }
       }
+    } else {
+      setShowPleaseLogIn(true);
     }
   };
 
@@ -94,6 +100,24 @@ const ProductCard = ({ productList }: ProductCardProps) => {
       </div>
       {isModalOpen && (
         <ProductPreviewModal onClose={closeModal} productList={productList} />
+      )}
+      {showPleaseLogIn && (
+        <div className="ProductCardPleaseLogIn">
+          <p className="ProductCardPleaseLogInText">
+            Please{" "}
+            <Link className="ProductCardPleaseLogInLink" to="/user-login">
+              {" "}
+              log in here
+            </Link>{" "}
+            to add to favourites
+          </p>
+          <button
+            className="ProductCardPleaseLogInButton"
+            onClick={() => setShowPleaseLogIn(false)}
+          >
+            x
+          </button>
+        </div>
       )}
     </>
   );

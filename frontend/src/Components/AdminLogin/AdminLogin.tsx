@@ -1,7 +1,6 @@
 import "./AdminLogin.css";
-// @ts-ignore
 import Logo from "./../../Assets/logo.svg";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
 

@@ -4,6 +4,7 @@ import AdminProductCard from "../AdminProductCard/AdminProductCard";
 import axios from "axios";
 import { useEditProduct } from "../../HelperFunctions/EditProductContext";
 import { useAdminVisibleContentContex } from "../../HelperFunctions/AdminVisibleContentContext";
+import { useAddProductVisibility } from "../../HelperFunctions/AddProductVisibilityContext";
 
 const initialState = {
   isLoading: false,
@@ -28,6 +29,7 @@ const AdminProductList = () => {
   const [products, dispatch] = useReducer(reducer, initialState);
   const {productUpdated} = useEditProduct()
   const {adminVisibleContent} = useAdminVisibleContentContex()
+  const {productAdded} = useAddProductVisibility()
 
   const handleFetch = async () => {
     dispatch({ type: "LOADING" });
@@ -51,11 +53,12 @@ const AdminProductList = () => {
 
   useEffect(() => {
     handleFetch();
+    console.log(productAdded)
   }, []);
 
   useEffect(()=> {
     handleFetch()
-  }, [productUpdated])
+  }, [productUpdated, productAdded])
 
   return (
     adminVisibleContent==="inventory" &&

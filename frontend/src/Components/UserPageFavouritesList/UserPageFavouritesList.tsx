@@ -37,11 +37,17 @@ const UserPageFavouritesList = ({ fetchFavourites }) => {
   return (
     <div className="UserPageFavouritesListWrapper">
       <h2 className="UserPageFavouritesListHeading">Favourited Products</h2>
-      <div className="UserPageFavouritesList">
-        {favouritedProducts?.map((product) => (
-          <ProductCard key={product.id} productList={product} />
-        ))}
-      </div>
+      {favouritedProducts.length > 0 ? (
+        <div className="UserPageFavouritesList">
+          {favouritedProducts?.map((product) => (
+            <ProductCard key={product.id} productList={product} />
+          ))}
+        </div>
+      ) : (
+        <div className="UserPageFavouritesListNoFavourites">
+          <p>You have no favourites yet</p>
+        </div>
+      )}
     </div>
   );
 };

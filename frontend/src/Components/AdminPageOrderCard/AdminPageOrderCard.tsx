@@ -68,15 +68,15 @@ const AdminPageOrderCard = ({ order, updateOrderList }) => {
     <div className="AdminPageOrderCardWrapper">
       <div className="AdminPageOrderCardOrderNumberWrapper">
         <h5 className={toggleClass()}>
-          Order no. {order.orderNumber} | {order.orderStatus}
+          Order no. {order.id} | {order.orderStatus}
         </h5>
         <div className="AdminPageOrderCardActionWrapper">
-          <button
+          {order.orderStatus === "Active" ? (<button
             className="AdminPageOrderCardCompleteButton"
             onClick={completeOrder}
           >
             MARK AS COMPLETE
-          </button>
+          </button>) : <div></div>}
           <button
             className="AdminPageOrderCardMoreButton"
             onClick={() => setActionsMenu(!actionsMenu)}

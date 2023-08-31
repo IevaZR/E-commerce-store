@@ -1,5 +1,4 @@
-import React from "react";
-// @ts-ignore
+
 import LogoLetter from "../../Assets/logo-letter.svg";
 import "./AdminPageSideBar.css";
 import { useAddProductVisibility } from "../../HelperFunctions/AddProductVisibilityContext";

@@ -52,3 +52,28 @@
     text-align: center;
     color: green;
 }
+
+.UserPageAccountInfoDeleteMessage {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    width: 30rem;
+    height: 20rem;
+    background-color: white;
+    font-family: "Comfortaa", cursive;
+    border-radius: 5px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 1px 1px 10px rgba(126, 125, 125, 0.418);
+    z-index: 999;
+    gap: 0.5rem;
+}
+
+@media screen and (max-width: 550px) {
+    .UserPageAccountInfoWrapper {
+        margin: 1rem 0 0 0;
+    }
+}

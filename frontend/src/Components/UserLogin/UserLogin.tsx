@@ -1,6 +1,4 @@
-import React from "react";
 import "./UserLogin.css";
-// @ts-ignore
 import Logo from "./../../Assets/logo.svg";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
@@ -15,7 +13,6 @@ const UserLogin = () => {
   const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState(false);
   const { updateUser } = useActiveSearchContext();
-  const [userLoaded, setUserLoaded] = useState(false);
 
   const handleLoginInput = (event) => {
     setLoginData((prev) => ({
@@ -32,6 +29,8 @@ const UserLogin = () => {
       );
 
       if (data === "Authorized") {
+        document.cookie = `session_token=${data}`;
+        localStorage.setItem('email', loginData.email)
         fetchUserData();
       }
     } catch (err) {

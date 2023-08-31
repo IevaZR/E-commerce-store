@@ -39,3 +39,27 @@
     margin-top: 3rem;
     font-size: 0.5rem;
 }
+
+@media screen and (max-width: 550px) {
+    .UserPageMainSectionWrapper {
+        width: 90%;
+        display: flex;
+        flex-direction: column;
+        padding: 0 5% 0 5%;
+    }
+
+    .UserPageSideBar {
+        padding-top: 1rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .UserPageSideBarLink {
+        margin-bottom: 0.5rem;
+    }
+
+    .LogOut {
+        margin-top: 1rem;
+    }
+}

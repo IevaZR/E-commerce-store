@@ -1,4 +1,4 @@
-import React from "react";
+
 import "./UserPageMainSection.css";
 import UserPageOrderList from "../UserPageOrderList/UserPageOrderList";
 import axios from "axios";
@@ -20,6 +20,7 @@ const UserPageMainSection = () => {
     try {
       await axios.post("http://localhost:3009/user/logout");
       localStorage.removeItem("username");
+      updateUser(null)
       navigate("/user-login");
     } catch (error) {
       console.log(error);

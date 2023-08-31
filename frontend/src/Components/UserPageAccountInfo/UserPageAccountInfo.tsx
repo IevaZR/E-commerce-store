@@ -4,9 +4,10 @@ import Button from "../ReusableComponents/Button/Button";
 import { useActiveSearchContext } from "../../HelperFunctions/ActiveSearchContext";
 import { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const UserPageAccountInfo = () => {
-  const { user } = useActiveSearchContext();
+  const { user, updateUser } = useActiveSearchContext();
   const [inputData, setInputData] = useState({
     id: user.id,
     email: user.email,
@@ -15,6 +16,8 @@ const UserPageAccountInfo = () => {
     password: user.password,
   });
   const [userUpdated, setUserUpdated] = useState(false);
+  const [deleteAccountMessage, setDeleteAccountMessage] = useState(false)
+  const navigate = useNavigate()
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -36,7 +39,7 @@ const UserPageAccountInfo = () => {
     }
   };
 
-  const updateUser = async () => {
+  const updateUserInfo = async () => {
     try {
       await axios.put(
         `http://localhost:3009/user/update-user/${user.id}`,
@@ -48,6 +51,21 @@ const UserPageAccountInfo = () => {
       console.log(err);
     }
   };
+
+  const toggleDeleteAccountMessage = () => {
+    setDeleteAccountMessage(!deleteAccountMessage)
+  }
+
+  const deleteUserAccount = async () => {
+    try {
+      await axios.delete(`http://localhost:3009/user/delete-user/${user.id}`)
+      localStorage.removeItem("username");
+      updateUser(null)
+      navigate("/user-login")
+    } catch (err) {
+      console.log(err)
+    }
+  }
 
   return (
     <div className="UserPageAccountInfoWrapper">
@@ -101,14 +119,21 @@ const UserPageAccountInfo = () => {
             onChange={handleInputChange}
           ></input>
         </div>
-        <Button text="Submit updated user info" onClick={updateUser} />
+        <Button text="Submit updated user info" onClick={updateUserInfo} />
         {userUpdated && (
           <p className="UserPageAccountInfoUpdatedMessage">User updated</p>
         )}
-        <button className="UserPageAccountInfoDeleteButton">
+        <button className="UserPageAccountInfoDeleteButton" onClick={toggleDeleteAccountMessage}>
           Delete Account
         </button>
       </div>
+      {deleteAccountMessage && <div className="UserPageAccountInfoDeleteMessage">
+          <p className="UserPageAccountInfoDeleteText">
+            Do you really want to delete your account?
+          </p>
+          <Button text="Yes, please delete" onClick={deleteUserAccount}/>
+          <Button text="No, close message" onClick={toggleDeleteAccountMessage}/>
+        </div>}
     </div>
   );
 };

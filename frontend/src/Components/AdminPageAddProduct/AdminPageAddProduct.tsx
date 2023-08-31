@@ -8,11 +8,9 @@ import AdminPageProductAddedMessage from "../AdminPageProductAddedMessage/AdminP
 import { useEditProduct } from "../../HelperFunctions/EditProductContext";
 
 const AdminPageAddProduct = () => {
-  const { isAddProductVisible, toggleAddProductVisible } =
+  const { isAddProductVisible, toggleAddProductVisible, productAdded, toggleProductAdded } =
     useAddProductVisibility();
   const { editingProduct, setEditingProduct } = useEditProduct();
-
-  const [productAdded, setProductAdded] = useState(false);
   const [emptyFields, setEmptyFields] = useState(false);
 
   const closeAddProductForm = () => {
@@ -22,7 +20,7 @@ const AdminPageAddProduct = () => {
   };
 
   const resetProductAddedValue = () => {
-    setProductAdded(false);
+    toggleProductAdded(false);
     setEmptyFields(false);
     setInputFields(inputFieldInitialState);
   };
@@ -106,11 +104,11 @@ const AdminPageAddProduct = () => {
 
   const addProductToDatabase = async () => {
     try {
-      const submitData = await axios.post(
+      await axios.post(
         "http://localhost:3009/create",
         inputFields
       );
-      setProductAdded(true);
+      toggleProductAdded(true);
       setEmptyFields(false);
     } catch (err) {
       console.log(err);

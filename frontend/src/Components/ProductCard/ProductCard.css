@@ -27,8 +27,6 @@
     display: inline-block;
 }
 
-
-
 .ProductImageContainer {
     display: flex;
     justify-content: center;
@@ -97,11 +95,45 @@
     width: 1rem;
 }
 
+
+.ProductCardPleaseLogIn {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    width: 25rem;
+    height: 10rem;
+    background-color: white;
+    font-family: "Comfortaa", cursive;
+    border-radius: 5px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 1px 1px 10px rgba(126, 125, 125, 0.418);
+    z-index: 999;
+}
+
+.ProductCardPleaseLogInLink {
+    color: black;
+}
+
+.ProductCardPleaseLogInButton {
+    background-color: transparent;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
 @media screen and (max-width: 1420px) {
     .ProductCardWrapper .SharedButton {
         padding: 1rem;
     }
-  
+}
+
 @media screen and (max-width: 1000px) {
     .ProductCardWrapper .SharedButton {
         padding: 1rem 0.5rem;

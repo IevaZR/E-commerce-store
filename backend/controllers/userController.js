@@ -1,11 +1,15 @@
 import userModel from "../models/userModel.js";
 import jwt from 'jsonwebtoken'
+import bcrypt from 'bcrypt'
 
 export const createUser = async (req, res) => {
     try {
-        const user = new userModel(req.body);
+        const salt = bcrypt.genSaltSync(10)
+        const hashedPassword = bcrypt.hashSync(req.body.password.toString(), salt)
+        const user = new userModel({ ...req.body, password: hashedPassword });
         const data = await user.save();
-        res.status(201).json(data)
+        
+        res.status(201).json("User created")
     } catch (error) {
         console.log(error);
         res.status(400).send(error)
@@ -25,7 +29,7 @@ export const getAllUsers = async (req, res) => {
 
 export const getUser = async (req, res) => {
     try {
-        const user = await userModel.find({ email: req.params.email })
+        const user = await userModel.find({ email: req.params.email }, {password:0})
 
         res.status(201).send(user);
     } catch (error) {
@@ -38,7 +42,7 @@ export const deleteUser = async (req, res) => {
     try {
         const user = await userModel.deleteOne({ id: req.params.id })
 
-        res.status(201).send(user);
+        res.status(201).send("User deleted successfully");
     } catch (error) {
         console.log(error);
         res.status(400).send(error);
@@ -63,13 +67,7 @@ export const loginAdmin = async (req, res) => {
             return res.status(404).send('Username or Password is incorrect!')
         }
 
-        const isUserPasswordCorrect = () => {
-            if (req.body.password.toString() === foundUser.password) {
-                return true
-            } else {
-                return false
-            }
-        }
+        const isUserPasswordCorrect = bcrypt.compareSync(req.body.password.toString(), foundUser.password)
 
         const isUserAdmin = () => {
             if (foundUser.admin === true) {
@@ -79,13 +77,13 @@ export const loginAdmin = async (req, res) => {
             }
         }
 
-        if (!isUserPasswordCorrect() || !isUserAdmin()) {
+        if (!isUserPasswordCorrect || !isUserAdmin()) {
             return res.status(404).send('Username or Password is incorrect!')
         }
 
         const token = jwt.sign({ id: foundUser._id }, process.env.JWT_SECRET, { expiresIn: "1h" })
 
-        if (isUserPasswordCorrect() && isUserAdmin()) {
+        if (isUserPasswordCorrect && isUserAdmin()) {
             console.log('Logged in')
             res.cookie('session_token', token, { httpOnly: true }).status(200).send(`Authorized`)
         }
@@ -105,21 +103,15 @@ export const loginUser = async (req, res) => {
             return res.status(404).send('Username or Password is incorrect!')
         }
 
-        const isUserPasswordCorrect = () => {
-            if (req.body.password.toString() === foundUser.password) {
-                return true
-            } else {
-                return false
-            }
-        }
+        const isUserPasswordCorrect = bcrypt.compareSync(req.body.password.toString(), foundUser.password)
 
-        if (!isUserPasswordCorrect()) {
+        if (!isUserPasswordCorrect) {
             return res.status(404).send('Username or Password is incorrect!')
         }
 
         const token = jwt.sign({ id: foundUser._id }, process.env.JWT_SECRET, { expiresIn: "1h" })
 
-        if (isUserPasswordCorrect()) {
+        if (isUserPasswordCorrect) {
             console.log('Logged in')
             res.cookie('session_token', token, { httpOnly: true }).status(200).send(`Authorized`)
         }
@@ -143,7 +135,7 @@ export const logoutUser = async (req, res) => {
 export const checkAuth = async (req, res) => {
     try {
         const user = await userModel.findOne({
-            userName: req.body.userName,
+            email: req.body.email,
             password: 0
         })
         res.status(200).json(!!user)

@@ -148,6 +148,22 @@
 @media screen and (max-width: 550px) {
   .HeaderNavbar {
     display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 5rem;
+    left: 50%;
+    transform: translate(-50%, 0);
+    z-index: 9999;
+    background-color: white;
+    width: 100%;
+  }
+
+  .HeaderNavbar.active {
+    display: flex;
+  }
+
+  .HeaderNavbarListItem {
+    margin-bottom: 1rem;
   }
 
   .HeaderNavbarMobileWrapper {
@@ -155,45 +171,7 @@
     justify-content: flex-end;
     background-color: white;
   }
-  .HeaderNavbarMobile {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: absolute;
-    width: 100%;
-    padding: 0;
-    top: -20rem;
-    left: 0;
-    margin: 0;
-    transition: all 1s ease;
-    background-color: white;
-    z-index: 999;
-    padding-bottom: 1rem;
-  }
-
-  .HeaderNavbarMobileActive {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: absolute;
-    width: 100%;
-    padding: 0;
-    top: 4rem;
-    left: 0;
-    margin: 0;
-    transition: all 1s ease;
-    background-color: white;
-    z-index: 999;
-    padding-bottom: 1rem;
-  }
-
-  .HeaderNavbarListItem {
-    margin: 0.3rem 0 0.3rem 0;
-  }
-  .HeaderNavbarMobile {
-    display: flex;
-    justify-content: center;
-  }
+ 
   .HeaderWrapper {
     align-items: center;
     padding-top: 1rem;

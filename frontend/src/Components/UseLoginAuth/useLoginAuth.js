@@ -13,7 +13,7 @@ const useLoginAuth = (token) => {
           "http://localhost:3009/user/check-auth",
           {
             session_token: token,
-            userName: localStorage.getItem("username"),
+            userName: localStorage.getItem("email"),
           }
         );
         setIsLoggedIn(true);
